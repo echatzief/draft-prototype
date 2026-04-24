@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 34 34% 95%;
+    --foreground: 24 22% 14%;
+
+    --card: 32 38% 97%;
+    --card-foreground: 24 22% 14%;
+
+    --popover: 32 38% 97%;
+    --popover-foreground: 24 22% 14%;
+
+    --primary: 24 31% 18%;
+    --primary-foreground: 34 44% 96%;
+
+    --secondary: 32 25% 90%;
+    --secondary-foreground: 24 22% 18%;
+
+    --muted: 34 22% 88%;
+    --muted-foreground: 26 12% 42%;
+
+    --accent: 30 30% 92%;
+    --accent-foreground: 24 22% 16%;
+
+    --destructive: 0 71% 56%;
+    --destructive-foreground: 34 44% 96%;
+
+    --border: 28 22% 82%;
+    --input: 30 25% 92%;
+    --ring: 24 31% 18%;
+
+    --radius: 0.85rem;
+    --hero-glow: 35 49% 84%;
+    --card-glow: 34 45% 91%;
+    --shadow-soft: 0 22px 60px -30px hsl(24 31% 18% / 0.22);
+    --shadow-glow: 0 28px 70px -34px hsl(30 45% 48% / 0.34);
+    --gradient-hero: radial-gradient(circle at top left, hsl(35 55% 90%) 0%, transparent 42%), linear-gradient(135deg, hsl(34 40% 95%) 0%, hsl(30 28% 90%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(32 48% 98% / 0.92), hsl(32 28% 92% / 0.72));
+    --gradient-highlight: linear-gradient(135deg, hsl(35 48% 90% / 0.8), hsl(32 24% 96% / 0));
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Manrope', sans-serif;
+    background-image: linear-gradient(to bottom, hsl(var(--background)), hsl(35 26% 92%));
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-brand {
+    font-family: 'Manrope', sans-serif;
+  }
+
+  .bg-hero-radial {
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-card-highlight {
+    background-image: var(--gradient-highlight);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+}

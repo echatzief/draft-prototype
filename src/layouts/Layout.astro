@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+import { Toaster } from '../components/ui/toaster';
+import { TooltipProvider } from '../components/ui/tooltip';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Draft Prototype - Minimal bags with a gallery finish" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-background text-foreground antialiased">
+    <TooltipProvider client:load>
+      <slot />
+      <Toaster client:load />
+    </TooltipProvider>
+  </body>
+</html>
