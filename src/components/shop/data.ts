@@ -1,6 +1,3 @@
-import obsidianToteImage from "../../assets/bag-tote-obsidian.jpg";
-import ivoryMiniImage from "../../assets/bag-mini-ivory.jpg";
-
 export type Product = {
   id: string;
   name: string;
@@ -23,8 +20,9 @@ export const products: Product[] = [
     color: "Obsidian",
     material: "Polished calf leather",
     size: "Large",
-    description: "A fluid silhouette with a generous interior and sculpted handle, made for an understated statement.",
-    image: obsidianToteImage,
+    description:
+      "A fluid silhouette with a generous interior and sculpted handle, made for an understated statement.",
+    image: "/bag-tote-obsidian.jpg",
     accent: "dark",
   },
   {
@@ -35,8 +33,9 @@ export const products: Product[] = [
     color: "Ivory",
     material: "Smooth Italian leather",
     size: "Mini",
-    description: "A structured mini bag with a crisp fold-over flap and warm metallic details for refined occasions.",
-    image: ivoryMiniImage,
+    description:
+      "A structured mini bag with a crisp fold-over flap and warm metallic details for refined occasions.",
+    image: "/bag-mini-ivory.jpg",
     accent: "light",
   },
 ];

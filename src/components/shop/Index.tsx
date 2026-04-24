@@ -160,11 +160,12 @@ export default function Index() {
       <main>
         <HeroSection onExplore={scrollToCollection} lines={brandLines} />
         <ExperienceStrip />
-        <div className="container grid gap-8 py-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-start">
+        <div className="container py-10">
           <section ref={collectionRef}>
             <ProductGrid products={products} onAddToCart={addToCart} />
           </section>
-          <div className="lg:pt-16">
+          
+          <div className="mt-10">
             <CartDrawer
               items={cartItems}
               total={total}

@@ -36,8 +36,6 @@ export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
                   alt={product.name}
                   className="h-full min-h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   loading="lazy"
-                  width={1024}
-                  height={1280}
                 />
               </div>
 
