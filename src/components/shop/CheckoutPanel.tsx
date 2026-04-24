@@ -20,12 +20,12 @@ export function CheckoutPanel({ values, items, total, isSubmitting, onChange, on
     <section className="border-t border-border/60 bg-secondary/20">
       <div className="container grid gap-10 py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
         <div className="space-y-5">
-          <p className="font-brand text-sm uppercase tracking-[0.32em] text-muted-foreground">Checkout</p>
+          <p className="font-brand text-sm uppercase tracking-[0.32em] text-muted-foreground">Order</p>
           <h2 className="font-display text-4xl leading-tight text-foreground md:text-5xl">
-            Place the order now. Payment comes later.
+            Complete your order
           </h2>
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
-            Once submitted, the order is stored in the backend and a confirmation flow can notify the client that Draft Prototype received it.
+            Once submitted, you'll receive an order confirmation via email with delivery details.
           </p>
 
           <div className="rounded-[1.5rem] border border-border/60 bg-background/80 p-5 shadow-soft">
@@ -34,8 +34,8 @@ export function CheckoutPanel({ values, items, total, isSubmitting, onChange, on
                 <MailCheck className="size-5 text-foreground" />
               </div>
               <div>
-                <p className="font-medium text-foreground">Email-ready flow</p>
-                <p className="text-sm text-muted-foreground">The backend call is prepared to send an order confirmation once Resend is connected.</p>
+                <p className="font-medium text-foreground">Secure ordering</p>
+                <p className="text-sm text-muted-foreground">We'll send an order confirmation email once your purchase is processed.</p>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@ export function CheckoutPanel({ values, items, total, isSubmitting, onChange, on
                 <Input value={values.name} onChange={(e) => onChange("name", e.target.value)} placeholder="Ava Martin" required />
               </Field>
               <Field label="Email">
-                <Input type="email" value={values.email} onChange={(e) => onChange("email", e.target.value)} placeholder="ava@draftprototype.com" required />
+                <Input type="email" value={values.email} onChange={(e) => onChange("email", e.target.value)} placeholder="ava@example.com" required />
               </Field>
               <Field label="Phone">
                 <Input value={values.phone} onChange={(e) => onChange("phone", e.target.value)} placeholder="Optional" />

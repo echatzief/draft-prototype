@@ -31,7 +31,7 @@ export function CartDrawer({ items, total, onIncrement, onDecrement, onRemove, o
           </div>
           <div className="space-y-2">
             <p className="font-medium text-foreground">Your cart is still empty.</p>
-            <p className="text-sm leading-6 text-muted-foreground">Choose a piece from the collection and the checkout panel will come alive.</p>
+            <p className="text-sm leading-6 text-muted-foreground">Browse our collection and add bags to your cart to get started.</p>
           </div>
         </div>
       ) : (

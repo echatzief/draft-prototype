@@ -49,8 +49,8 @@ export default function Index() {
     });
 
     toast({
-      title: "Added to cart",
-      description: `${product.name} is ready for checkout.`,
+title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
     });
   };
 
