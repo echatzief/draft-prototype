@@ -12,7 +12,7 @@ interface ProductGridProps {
 
 export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
   return (
-    <section id="collection" className="container py-16 md:py-20">
+    <section id="collection" className="-mx-4 px-4 py-16 md:container md:mx-0 md:px-0 md:py-20">
       <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="space-y-2">
           <p className="font-brand text-sm uppercase tracking-[0.32em] text-muted-foreground">Collection</p>
