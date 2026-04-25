@@ -13,35 +13,35 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    id: "obsidian-wave-tote",
-    name: "Obsidian Wave Tote",
-    subtitle: "Soft architecture for every day",
-    price: 340,
-    color: "Obsidian",
-    material: "Polished calf leather",
-    size: "Large",
+    id: "baby-blue-loop-clutch",
+    name: "Baby Blue Loop-Stitch Clutch",
+    subtitle: "Hand-crafted soft chenille pouch",
+    price: 40,
+    color: "Baby Blue",
+    material: "Ultra-soft chenille loop yarn",
+    size: "Compact",
     description:
-      "A fluid silhouette with a generous interior and sculpted handle, made for an understated statement.",
-    image: "/bag-tote-obsidian.jpg",
-    accent: "dark",
+      "Hand-crafted clutch in soft baby blue chenille with magnetic closure, gold tag and satin lining.",
+    image: "/baby_blue_bag.png",
+    accent: "light",
   },
   {
-    id: "ivory-frame-mini",
-    name: "Ivory Frame Mini",
-    subtitle: "Compact, precise, quietly bold",
-    price: 280,
-    color: "Ivory",
-    material: "Smooth Italian leather",
-    size: "Mini",
+    id: "lavender-loop-clutch",
+    name: "Lavender Loop-Stitch Clutch",
+    subtitle: "Textured chunky yarn pochette",
+    price: 40,
+    color: "Lavender",
+    material: "Chunky loop-stitch chenille yarn",
+    size: "Compact",
     description:
-      "A structured mini bag with a crisp fold-over flap and warm metallic details for refined occasions.",
-    image: "/bag-mini-ivory.jpg",
+      "Handmade lavender yarn clutch with bubbly texture, gold 'hand made' label and silk-like lining.",
+    image: "/purple_bag.png",
     accent: "light",
   },
 ];
 
 export const brandLines = [
-  "Handcrafted leather",
-  "Premium materials",
-  "Free shipping on orders over €100",
+  "Handmade in Greece",
+  "100% chenille yarn",
+  "Free shipping over €80",
 ];
