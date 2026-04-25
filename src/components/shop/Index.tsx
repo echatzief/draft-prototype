@@ -133,12 +133,13 @@ export default function Index() {
     setIsSubmitting(false);
 
     if (!response.ok || result.error) {
+      const isRateLimited = response.status === 429;
       toast({
-        title: "Order not completed",
+        title: isRateLimited ? "Order limit reached" : "Order not completed",
         description:
           result.error ||
           "Your order didn't go through. Please try again in a moment.",
-        variant: "destructive",
+        variant: isRateLimited ? "default" : "destructive",
       });
     } else {
       toast({

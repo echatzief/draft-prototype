@@ -1,6 +1,8 @@
 import { Resend } from "resend";
 import { supabaseAdmin } from "../../integrations/supabase/client";
 
+const MAX_ORDERS_PER_EMAIL = 3;
+
 export const prerender = false;
 
 export const POST = async ({ request }: { request: Request }) => {
@@ -25,6 +27,28 @@ export const POST = async ({ request }: { request: Request }) => {
       return Response.json(
         { error: "Missing required fields" },
         { status: 400 },
+      );
+    }
+
+    const { data: existingOrders, error: countError } = await supabaseAdmin
+      .from("orders")
+      .select("id", { count: "exact", head: true })
+      .eq("customer_email", customerEmail.toLowerCase());
+
+    if (countError) {
+      console.error("Count error:", countError);
+      return Response.json(
+        { error: "Unable to verify order history" },
+        { status: 500 },
+      );
+    }
+
+    if (existingOrders && existingOrders.length >= MAX_ORDERS_PER_EMAIL) {
+      return Response.json(
+        {
+          error: `You’ve reached the maximum number of allowed orders. Please contact us to place additional orders.`,
+        },
+        { status: 429 },
       );
     }
 
