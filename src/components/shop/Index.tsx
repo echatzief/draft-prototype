@@ -1,8 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 
 import { toast } from "../ui/use-toast";
-import { supabase } from "../../integrations/supabase/client";
-import type { TablesInsert } from "../../integrations/supabase/types";
 
 import { CartDrawer } from "./CartDrawer";
 import { CheckoutPanel } from "./CheckoutPanel";
@@ -109,73 +107,37 @@ export default function Index() {
 
     setIsSubmitting(true);
 
-    const orderPayload: TablesInsert<"orders"> = {
-      customer_name: checkoutValues.name.trim(),
-      customer_email: checkoutValues.email.trim(),
-      customer_phone: checkoutValues.phone.trim() || null,
-      shipping_address: checkoutValues.address.trim(),
-      shipping_city: checkoutValues.city.trim(),
-      shipping_postal_code: checkoutValues.postalCode.trim(),
-      shipping_country: checkoutValues.country.trim(),
-      notes: checkoutValues.notes.trim() || null,
-      currency: "EUR",
-      total_amount: total,
-      items: cartItems.map((item) => ({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        color: item.color,
-      })),
-    };
+    const response = await fetch("/api/send-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customerName: checkoutValues.name.trim(),
+        customerEmail: checkoutValues.email.trim(),
+        totalAmount: total,
+        currency: "EUR",
+        items: cartItems.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        shippingAddress: checkoutValues.address.trim(),
+        shippingCity: checkoutValues.city.trim(),
+        shippingPostalCode: checkoutValues.postalCode.trim(),
+        shippingCountry: checkoutValues.country.trim(),
+        notes: checkoutValues.notes.trim() || undefined,
+      }),
+    });
 
-    const { data: order, error } = await supabase
-      .from("orders")
-      .insert(orderPayload)
-      .select("id")
-      .single();
-
-    console.log(error);
-    if (error || !order) {
-      setIsSubmitting(false);
-      toast({
-        title: "Order not completed",
-        description:
-          "Your order didn’t go through. Please try again in a moment.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const { error: functionError } = await supabase.functions.invoke(
-      "send-order-confirmation",
-      {
-        body: {
-          customerName: checkoutValues.name.trim(),
-          customerEmail: checkoutValues.email.trim(),
-          totalAmount: total,
-          currency: "EUR",
-          items: cartItems.map((item) => ({
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-          shippingAddress: checkoutValues.address.trim(),
-          shippingCity: checkoutValues.city.trim(),
-          shippingPostalCode: checkoutValues.postalCode.trim(),
-          shippingCountry: checkoutValues.country.trim(),
-          notes: checkoutValues.notes.trim() || undefined,
-        },
-      },
-    );
+    const result = await response.json();
 
     setIsSubmitting(false);
 
-    if (functionError) {
+    if (!response.ok || result.error) {
       toast({
         title: "Order not completed",
         description:
-          "Your order didn’t go through. Please try again in a moment.",
+          result.error ||
+          "Your order didn't go through. Please try again in a moment.",
         variant: "destructive",
       });
     } else {

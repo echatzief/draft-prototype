@@ -5,7 +5,7 @@ export const prerender = false;
 
 export const POST = async ({ request }: { request: Request }) => {
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY || "");
+    const resend = new Resend(import.meta.env.RESEND_API_KEY || "");
 
     const body = await request.json();
     const {
@@ -22,7 +22,10 @@ export const POST = async ({ request }: { request: Request }) => {
     } = body;
 
     if (!customerName || !customerEmail || !items?.length) {
-      return Response.json({ error: "Missing required fields" }, { status: 400 });
+      return Response.json(
+        { error: "Missing required fields" },
+        { status: 400 },
+      );
     }
 
     const orderItems = items.map((item: any) => ({
@@ -51,7 +54,10 @@ export const POST = async ({ request }: { request: Request }) => {
 
     if (orderError) {
       console.error("Order insert error:", orderError);
-      return Response.json({ error: "Failed to create order" }, { status: 500 });
+      return Response.json(
+        { error: "Failed to create order" },
+        { status: 500 },
+      );
     }
 
     const itemsList = orderItems
@@ -81,7 +87,7 @@ export const POST = async ({ request }: { request: Request }) => {
     try {
       await resend.emails.send({
         from: "Draft Prototype <no-reply@draft-prototype.gr>",
-        to: process.env.OWNER_EMAIL || "echatzief97@gmail.com",
+        to: import.meta.env.OWNER_EMAIL || "echatzief97@gmail.com",
         subject: `New Order #${order.id} from ${customerName}`,
         html: `
           <h1>New Order Received</h1>
