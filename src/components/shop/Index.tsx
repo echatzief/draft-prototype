@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useMemo, useRef, useState } from "react";
 
 import { toast } from "../ui/use-toast";
@@ -9,6 +10,7 @@ import { FooterNote } from "./FooterNote";
 import { HeroSection } from "./HeroSection";
 import { ProductGrid } from "./ProductGrid";
 import { ShopHeader } from "./ShopHeader";
+import { GA_EVENTS, trackEvent, trackPageView } from "../../lib/analytics";
 import { brandLines, products, type Product } from "./data";
 import type { CartItem, CheckoutFormValues } from "./types";
 
@@ -40,13 +42,25 @@ export default function Index() {
     [cartItems],
   );
 
+  useEffect(() => {
+    trackPageView(window.location.pathname, document.title);
+  }, []);
+
   const scrollToCollection = () =>
     collectionRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-  const scrollToCheckout = () =>
+  const scrollToCheckout = () => {
+    if (cartItems.length > 0) {
+      trackEvent(GA_EVENTS.BEGIN_CHECKOUT, {
+        currency: "EUR",
+        value: total,
+        items: cartItems.length,
+      });
+    }
     checkoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const addToCart = (product: Product) => {
     setCartItems((current) => {
@@ -60,6 +74,13 @@ export default function Index() {
       }
 
       return [...current, { ...product, quantity: 1 }];
+    });
+
+    trackEvent(GA_EVENTS.ADD_TO_CART, {
+      item_id: product.id,
+      item_name: product.name,
+      item_category: product.category,
+      price: product.price,
     });
 
     toast({
@@ -87,6 +108,14 @@ export default function Index() {
   };
 
   const removeItem = (id: string) => {
+    const item = cartItems.find((i) => i.id === id);
+    if (item) {
+      trackEvent(GA_EVENTS.REMOVE_FROM_CART, {
+        item_id: item.id,
+        item_name: item.name,
+        price: item.price,
+      });
+    }
     setCartItems((current) => current.filter((item) => item.id !== id));
   };
 
@@ -142,6 +171,12 @@ export default function Index() {
         variant: isRateLimited ? "default" : "destructive",
       });
     } else {
+      trackEvent(GA_EVENTS.PLACE_ORDER, {
+        value: total,
+        currency: "EUR",
+        items: cartItems.length,
+        item_names: cartItems.map((i) => i.name).join(", "),
+      });
       toast({
         title: "Order placed 🎉",
         description:

@@ -9,6 +9,7 @@ export type Product = {
   description: string;
   image: string;
   accent: "dark" | "light";
+  category: string;
 };
 
 export const products: Product[] = [
@@ -24,6 +25,7 @@ export const products: Product[] = [
       "Hand-crafted clutch in soft baby blue chenille with magnetic closure, gold tag and satin lining.",
     image: "/baby_blue_bag.png",
     accent: "light",
+    category: "Clutch",
   },
   {
     id: "lavender-loop-clutch",
@@ -37,6 +39,7 @@ export const products: Product[] = [
       "Handmade lavender yarn clutch with bubbly texture, gold 'hand made' label and silk-like lining.",
     image: "/purple_bag.png",
     accent: "light",
+    category: "Clutch",
   },
 ];
 

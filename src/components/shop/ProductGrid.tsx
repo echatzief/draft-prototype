@@ -1,7 +1,9 @@
+import { useEffect, useRef } from "react";
 import { ArrowUpRight, Plus } from "lucide-react";
 
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
+import { trackEvent, GA_EVENTS } from "../../lib/analytics";
 
 import type { Product } from "./data";
 
@@ -11,6 +13,36 @@ interface ProductGridProps {
 }
 
 export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
+  const productRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const productId = entry.target.getAttribute("data-product-id");
+            const product = products.find((p) => p.id === productId);
+            if (product) {
+              trackEvent(GA_EVENTS.VIEW_PRODUCT, {
+                item_id: product.id,
+                item_name: product.name,
+                item_category: product.category,
+                price: product.price,
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
+
+    productRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [products]);
+
   return (
     <section id="collection" className="-mx-4 px-4 py-16 md:container md:mx-0 md:px-0 md:py-20">
       <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -24,9 +56,11 @@ export function ProductGrid({ products, onAddToCart }: ProductGridProps) {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {products.map((product) => (
+        {products.map((product, index) => (
           <Card
             key={product.id}
+            data-product-id={product.id}
+            ref={(el) => { productRefs.current[index] = el; }}
             className="group overflow-hidden rounded-[1.5rem] border-border/60 bg-card/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
           >
             <CardContent className="grid gap-6 p-0 md:grid-cols-[1.1fr_0.9fr]">
