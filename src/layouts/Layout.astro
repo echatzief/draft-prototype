@@ -14,7 +14,7 @@ const {
     title,
     description = "Handcrafted loop-stitch clutches and bags. Baby blue & lavender chenille bags with atelier quality craftsmanship.",
     image = "/og-image.png",
-    url = "https://atelier-bags.com",
+    url = "https://draft-prototype.gr",
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, url);
@@ -37,7 +37,7 @@ const canonicalURL = new URL(Astro.url.pathname, url);
         <meta property="og:image" content={image} />
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Atelier Bags" />
+        <meta property="og:site_name" content="Draft Prototype" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
@@ -49,11 +49,11 @@ const canonicalURL = new URL(Astro.url.pathname, url);
             set:html={JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "OnlineStore",
-                name: "Atelier Bags",
+                name: "Draft Prototype",
                 description:
                     "Handcrafted loop-stitch clutches and bags with atelier quality.",
-                url: "https://atelier-bags.com",
-                logo: "https://atelier-bags.com/logo.png",
+                url: "draft-prototype.gr",
+                logo: "https://draft-prototype.gr/logo.png",
             })}
         />
     </head>
