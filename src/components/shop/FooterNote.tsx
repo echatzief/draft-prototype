@@ -13,12 +13,12 @@ export function FooterNote() {
             draft.prototype@gmail.com
           </a>
           <a
-            href="https://www.instagram.com/draft.prototype/"
+            href="https://www.instagram.com/draft.proto"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-foreground transition-colors"
           >
-            @draft.prototype
+            @draft.proto
           </a>
         </div>
       </div>
