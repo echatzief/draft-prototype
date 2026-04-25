@@ -1,6 +1,6 @@
 {
   "name": "atelier-bags",
-  "description": "Minimal leather bags crafted with precision - Handcrafted leather bags with atelier quality",
+  "description": "Minimal bags crafted with precision - Handcrafted bags with atelier quality",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

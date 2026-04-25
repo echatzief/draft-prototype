@@ -43,5 +43,5 @@ export const products: Product[] = [
 export const brandLines = [
   "Handcrafted leather",
   "Premium materials",
-  "Free shipping on orders over €300",
+  "Free shipping on orders over €100",
 ];

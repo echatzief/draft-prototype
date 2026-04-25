@@ -16,10 +16,10 @@ export function HeroSection({ onExplore, lines }: HeroSectionProps) {
           <div className="space-y-5">
             <p className="font-brand text-sm uppercase tracking-[0.38em] text-muted-foreground">Draft Prototype</p>
             <h1 className="max-w-xl font-display text-5xl leading-[0.92] text-foreground md:text-6xl lg:text-7xl">
-              Handcrafted leather bags built to last.
+              Handcrafted bags built to last.
             </h1>
             <p className="max-w-lg text-base leading-7 text-muted-foreground md:text-lg">
-              Discover our collection of minimalist leather bags — from elegant totes to compact crossbodies, each crafted with precision and built to age beautifully.
+              Discover our collection of minimalist bags — from elegant totes to compact crossbodies, each crafted with precision and built to age beautifully.
             </p>
           </div>
 
@@ -43,9 +43,9 @@ export function HeroSection({ onExplore, lines }: HeroSectionProps) {
             <div className="pointer-events-none absolute inset-0 bg-card-highlight opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
             <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">New Collection</p>
             <div className="mt-12 space-y-3">
-              <h2 className="font-display text-3xl text-foreground">Spring 2025</h2>
+              <h2 className="font-display text-3xl text-foreground">Limited Edition</h2>
               <p className="text-sm leading-6 text-muted-foreground">
-                Timeless silhouettes crafted in premium Italian leather.
+                20 pieces remaining — secure yours before they're gone.
               </p>
             </div>
           </article>
@@ -55,7 +55,7 @@ export function HeroSection({ onExplore, lines }: HeroSectionProps) {
             <div className="mt-12 space-y-3">
               <h2 className="font-display text-3xl text-foreground">Free delivery</h2>
               <p className="text-sm leading-6 text-muted-foreground">
-                Complimentary shipping on all orders over €300. Secure checkout with order confirmation.
+                Complimentary shipping on all orders over €100. Secure checkout with order confirmation.
               </p>
             </div>
           </article>

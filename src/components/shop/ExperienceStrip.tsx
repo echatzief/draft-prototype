@@ -1,6 +1,6 @@
 const points = [
-  "Free shipping over €300",
-  "Handcrafted leather",
+  "Free shipping over €100",
+  "Handcrafted bags",
   "Secure ordering",
 ];
 
