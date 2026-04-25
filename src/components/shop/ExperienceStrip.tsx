@@ -1,5 +1,5 @@
 const points = [
-  "Free shipping over €100",
+  "Free shipping over €80",
   "Handcrafted bags",
   "Secure ordering",
 ];

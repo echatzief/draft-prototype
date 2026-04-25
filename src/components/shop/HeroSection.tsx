@@ -18,12 +18,12 @@ export function HeroSection({ onExplore, lines }: HeroSectionProps) {
               Draft Prototype
             </p>
             <h1 className="max-w-xl font-display text-5xl leading-[0.92] text-foreground md:text-6xl lg:text-7xl">
-              Handcrafted bags built to last.
+              Handcrafted loop-stitch clutches
             </h1>
             <p className="max-w-lg text-base leading-7 text-muted-foreground md:text-lg">
-              Discover our collection of minimalist bags — from elegant totes to
-              compact crossbodies, each crafted with precision and built to age
-              beautifully.
+              Discover our collection of unique handcrafted yarn clutches —
+              luxuriously soft chenille pouches in baby blue and lavender,
+              made with care in Greece.
             </p>
           </div>
 
@@ -73,7 +73,7 @@ export function HeroSection({ onExplore, lines }: HeroSectionProps) {
                 Free delivery
               </h2>
               <p className="text-sm leading-6 text-muted-foreground">
-                Complimentary shipping on all orders over €100. Secure checkout
+                Complimentary shipping on all orders over €80. Secure checkout
                 with order confirmation.
               </p>
             </div>
