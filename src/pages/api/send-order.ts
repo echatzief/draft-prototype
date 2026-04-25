@@ -1,16 +1,12 @@
-import { createClient } from "npm:@supabase/supabase-js";
-const resend = new Resend(Deno.env.get("RESEND_API_KEY") || "");
-const supabaseAdmin = createClient(
-  Deno.env.get("SUPABASE_URL") || "",
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "",
-);
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-};
-export async function onRequestPost(request: Request) {
+import { Resend } from "resend";
+import { supabaseAdmin } from "../../integrations/supabase/client";
+
+export const prerender = false;
+
+export const POST = async ({ request }: { request: Request }) => {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY || "");
+
     const body = await request.json();
     const {
       customerName,
@@ -24,22 +20,17 @@ export async function onRequestPost(request: Request) {
       shippingCountry,
       notes,
     } = body;
+
     if (!customerName || !customerEmail || !items?.length) {
-      return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        },
-      );
+      return Response.json({ error: "Missing required fields" }, { status: 400 });
     }
+
     const orderItems = items.map((item: any) => ({
-      id: item.id,
       name: item.name,
       quantity: item.quantity,
       price: item.price,
-      color: item.color,
     }));
+
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
       .insert({
@@ -57,25 +48,19 @@ export async function onRequestPost(request: Request) {
       })
       .select("id")
       .single();
+
     if (orderError) {
       console.error("Order insert error:", orderError);
-      return new Response(
-        JSON.stringify({
-          error: "Failed to create order",
-          details: orderError,
-        }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        },
-      );
+      return Response.json({ error: "Failed to create order" }, { status: 500 });
     }
-    if (Deno.env.get("RESEND_API_KEY")) {
-      const itemsList = orderItems
-        .map((item: any) => `${item.name} x${item.quantity} - €${item.price}`)
-        .join("\n");
+
+    const itemsList = orderItems
+      .map((item: any) => `${item.name} x${item.quantity} - €${item.price}`)
+      .join("\n");
+
+    try {
       await resend.emails.send({
-        from: "Draft Prototype <onboarding@resend.dev>",
+        from: "Draft Prototype <no-reply@draft-prototype.gr>",
         to: customerEmail,
         subject: "Order Confirmed - Draft Prototype",
         html: `
@@ -89,9 +74,14 @@ export async function onRequestPost(request: Request) {
           <p>We'll notify you once your order ships.</p>
         `,
       });
+    } catch (e) {
+      console.error("Email send error:", e);
+    }
+
+    try {
       await resend.emails.send({
-        from: "Draft Prototype <onboarding@resend.dev>",
-        to: Deno.env.get("OWNER_EMAIL") || "echatzief97@gmail.com",
+        from: "Draft Prototype <no-reply@draft-prototype.gr>",
+        to: process.env.OWNER_EMAIL || "echatzief97@gmail.com",
         subject: `New Order #${order.id} from ${customerName}`,
         html: `
           <h1>New Order Received</h1>
@@ -105,22 +95,13 @@ export async function onRequestPost(request: Request) {
           ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ""}
         `,
       });
+    } catch (e) {
+      console.error("Owner email send error:", e);
     }
-    return new Response(JSON.stringify({ success: true, orderId: order.id }), {
-      status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders },
-    });
+
+    return Response.json({ success: true, orderId: order.id });
   } catch (error) {
     console.error("Function error:", error);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json", ...corsHeaders },
-    });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
-}
-export async function onRequestOptions(request: Request) {
-  return new Response(null, {
-    status: 204,
-    headers: corsHeaders,
-  });
-}
+};
