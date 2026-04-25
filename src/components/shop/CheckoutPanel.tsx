@@ -59,7 +59,7 @@ export function CheckoutPanel({ values, items, total, isSubmitting, onChange, on
                 <Input type="email" value={values.email} onChange={(e) => onChange("email", e.target.value)} placeholder="ava@example.com" required />
               </Field>
               <Field label="Phone">
-                <Input value={values.phone} onChange={(e) => onChange("phone", e.target.value)} placeholder="Optional" />
+                <Input value={values.phone} onChange={(e) => onChange("phone", e.target.value)} placeholder="+33 6 12 34 56 78" required />
               </Field>
               <Field label="Country">
                 <Input value={values.country} onChange={(e) => onChange("country", e.target.value)} placeholder="France" required />
