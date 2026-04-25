@@ -4,7 +4,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY") || "");
 
 const supabaseAdmin = createClient(
   Deno.env.get("SUPABASE_URL") || "",
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "",
 );
 
 export async function onRequestPost(request: Request) {
@@ -26,7 +26,7 @@ export async function onRequestPost(request: Request) {
     if (!customerName || !customerEmail || !items?.length) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -58,10 +58,10 @@ export async function onRequestPost(request: Request) {
 
     if (orderError) {
       console.error("Order insert error:", orderError);
-      return new Response(
-        JSON.stringify({ error: "Failed to create order" }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Failed to create order" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     if (Deno.env.get("RESEND_API_KEY")) {
@@ -103,15 +103,15 @@ export async function onRequestPost(request: Request) {
       });
     }
 
-    return new Response(
-      JSON.stringify({ success: true, orderId: order.id }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: true, orderId: order.id }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Function error:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

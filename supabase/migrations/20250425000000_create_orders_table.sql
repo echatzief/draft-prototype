@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS public.orders (
 -- Enable Row Level Security
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 
--- Create policy for only allowing insert (customers create orders, but can't read/modify)
-CREATE POLICY "Allow insert for customers" ON public.orders
+-- Allow anonymous (unauthenticated) inserts
+CREATE POLICY "Allow anonymous insert" ON public.orders
   FOR INSERT
   WITH CHECK (true);
 

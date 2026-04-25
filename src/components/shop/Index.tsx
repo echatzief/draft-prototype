@@ -111,6 +111,7 @@ title: "Added to cart",
 
     const { data: order, error } = await supabase.from("orders").insert(orderPayload).select("id").single();
 
+    console.log(error);
     if (error || !order) {
       setIsSubmitting(false);
       toast({
@@ -164,7 +165,7 @@ title: "Added to cart",
           <section ref={collectionRef}>
             <ProductGrid products={products} onAddToCart={addToCart} />
           </section>
-          
+
           <div className="mt-10">
             <CartDrawer
               items={cartItems}
