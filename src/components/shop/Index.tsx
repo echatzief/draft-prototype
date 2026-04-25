@@ -27,35 +27,55 @@ const initialForm: CheckoutFormValues = {
 
 export default function Index() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [checkoutValues, setCheckoutValues] = useState<CheckoutFormValues>(initialForm);
+  const [checkoutValues, setCheckoutValues] =
+    useState<CheckoutFormValues>(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const collectionRef = useRef<HTMLElement | null>(null);
   const checkoutRef = useRef<HTMLDivElement | null>(null);
 
-  const total = useMemo(() => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0), [cartItems]);
-  const itemCount = useMemo(() => cartItems.reduce((sum, item) => sum + item.quantity, 0), [cartItems]);
+  const total = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    [cartItems],
+  );
+  const itemCount = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
+    [cartItems],
+  );
 
-  const scrollToCollection = () => collectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  const scrollToCheckout = () => checkoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToCollection = () =>
+    collectionRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  const scrollToCheckout = () =>
+    checkoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   const addToCart = (product: Product) => {
     setCartItems((current) => {
       const existing = current.find((item) => item.id === product.id);
       if (existing) {
-        return current.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
+        return current.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
       }
 
       return [...current, { ...product, quantity: 1 }];
     });
 
     toast({
-title: "Added to cart",
-        description: `${product.name} has been added to your cart.`,
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
     });
   };
 
   const incrementItem = (id: string) => {
-    setCartItems((current) => current.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item)));
+    setCartItems((current) =>
+      current.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
+    );
   };
 
   const decrementItem = (id: string) => {
@@ -109,45 +129,60 @@ title: "Added to cart",
       })),
     };
 
-    const { data: order, error } = await supabase.from("orders").insert(orderPayload).select("id").single();
+    const { data: order, error } = await supabase
+      .from("orders")
+      .insert(orderPayload)
+      .select("id")
+      .single();
 
     console.log(error);
     if (error || !order) {
       setIsSubmitting(false);
       toast({
-        title: "Order failed",
-        description: "The backend could not store this order yet. Please try again.",
+        title: "Order not completed",
+        description:
+          "Your order didn’t go through. Please try again in a moment.",
         variant: "destructive",
       });
       return;
     }
 
-    const { error: functionError } = await supabase.functions.invoke("send-order-confirmation", {
-      body: {
-        orderId: order.id,
-        customerName: checkoutValues.name.trim(),
-        customerEmail: checkoutValues.email.trim(),
-        totalAmount: total,
-        currency: "EUR",
-        items: cartItems.map((item) => ({
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-        })),
+    const { error: functionError } = await supabase.functions.invoke(
+      "send-order-confirmation",
+      {
+        body: {
+          customerName: checkoutValues.name.trim(),
+          customerEmail: checkoutValues.email.trim(),
+          totalAmount: total,
+          currency: "EUR",
+          items: cartItems.map((item) => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          shippingAddress: checkoutValues.address.trim(),
+          shippingCity: checkoutValues.city.trim(),
+          shippingPostalCode: checkoutValues.postalCode.trim(),
+          shippingCountry: checkoutValues.country.trim(),
+          notes: checkoutValues.notes.trim() || undefined,
+        },
       },
-    });
+    );
 
     setIsSubmitting(false);
 
     if (functionError) {
       toast({
-        title: "Order placed",
-        description: "The order is saved. Email confirmation is pending until Resend is connected.",
+        title: "Order not completed",
+        description:
+          "Your order didn’t go through. Please try again in a moment.",
+        variant: "destructive",
       });
     } else {
       toast({
-        title: "Order placed",
-        description: "The order is saved and the confirmation flow was triggered.",
+        title: "Order placed 🎉",
+        description:
+          "Your order was placed successfully. A confirmation email will be available soon.",
       });
     }
 
