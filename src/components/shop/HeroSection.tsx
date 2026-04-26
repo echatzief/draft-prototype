@@ -22,8 +22,8 @@ export function HeroSection({ onExplore, lines }: HeroSectionProps) {
             </h1>
             <p className="max-w-lg text-base leading-7 text-muted-foreground md:text-lg">
               Discover our collection of unique handcrafted yarn clutches —
-              luxuriously soft chenille pouches in baby blue and lavender,
-              made with care in Greece.
+              luxuriously soft chenille pouches in baby blue and lavender, made
+              with care in Greece.
             </p>
           </div>
 
